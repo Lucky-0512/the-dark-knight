@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  --font-cinzel: var(--font-cinzel);
+  --font-inter: var(--font-inter);
+}
+
+html, body {
+  cursor: none !important;
+}
+
+a, button, [role="button"] {
+  cursor: none !important;
+}
+
+:root {
+  --background: #000000;
+  --foreground: #ededed;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--foreground);
+  font-family: var(--font-inter), sans-serif;
+}
+
+.cinzel {
+  font-family: var(--font-cinzel), serif;
+}
+
+.font-handwritten {
+  font-family: var(--font-caveat), cursive;
+}
+
+/* Smoke Reveal Animation */
+.reveal-smoke {
+  filter: blur(10px);
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reveal-smoke.active {
+  filter: blur(0);
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Organic Stem Line */
+.stem-path {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.noise-overlay::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/noise.svg');
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@layer utilities {
+  .clip-text {
+    background: linear-gradient(180deg, #fff 0%, #444 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .clip-text-gold {
+    background: linear-gradient(180deg, #eaaf08 0%, #8b6e00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* Cinematic Blending for Image Sequences and Videos */
+.cinematic-blend {
+  mask-image: radial-gradient(circle, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);
+  filter: contrast(1.1) brightness(0.95);
+}
+
+.cinematic-blend-edge {
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROJECT GOTHAM · INDIA 2026 · THE SIGNAL IS UP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,200;0,300;1,200;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --void: #030303;
+    --white: #ffffff;
+    --off-white: #e8e8e8;
+    --dim-white: #c8c8c8;
+    --ghost: #888888;
+    --signal-blue: #a8c8e8;
+    --cold-light: #c8d8f0;
+    --amber: #d4853a;
+    --gold: #c8a84a;
+    --crack-light: #7090b0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 2px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #333; }
+
+  /* ─── GLOBAL TYPE ─── */
+  .f-display {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.08em;
+  }
+  .f-serif { font-family: 'Cormorant Garamond', serif; }
+  .f-body { font-family: 'Crimson Pro', serif; }
+
+  /* ─── SECTIONS ─── */
+  section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10vh 6vw;
+    overflow: hidden;
+  }
+
+  /* ─── BAT SVG ─── */
+  .bat-symbol {
+    width: 180px;
+    height: 90px;
+    fill: var(--white);
+    opacity: 0.9;
+  }
+  .bat-symbol-lg {
+    width: 320px;
+    height: 160px;
+  }
+  .bat-symbol-sm {
+    width: 80px;
+    height: 40px;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.3;
+  }
+
+  /* ─── SIGNAL LINE (decorative) ─── */
+  .signal-beam {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 40vh;
+    background: linear-gradient(to bottom, transparent, var(--cold-light), transparent);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  /* ─── CHAPTER LABEL ─── */
+  .chapter-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--ghost);
+    text-transform: uppercase;
+    margin-bottom: 4rem;
+    opacity: 0.5;
+  }
+
+  /* ─── FADE IN ANIMATION ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  @keyframes crackGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+  @keyframes signalSweep {
+    0% { transform: translateX(-50%) rotate(-15deg); opacity: 0.08; }
+    50% { transform: translateX(-50%) rotate(0deg); opacity: 0.15; }
+    100% { transform: translateX(-50%) rotate(15deg); opacity: 0.08; }
+  }
+  @keyframes floatUp {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(168,200,232,0.2); }
+    50% { box-shadow: 0 0 24px rgba(168,200,232,0.5); }
+  }
+  @keyframes textReveal {
+    from { opacity: 0; letter-spacing: 0.2em; }
+    to   { opacity: 1; letter-spacing: inherit; }
+  }
+  @keyframes lineGrow {
+    from { width: 0; }
+    to   { width: 100%; }
+  }
+
+  .anim-fade { animation: fadeIn 1.4s ease forwards; }
+  .anim-up   { animation: fadeUp 1.2s ease forwards; }
+
+  /* ─── INTERSECTION OBSERVER CLASSES ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-slow {
+    opacity: 0;
+    transition: opacity 1.6s ease;
+  }
+  .reveal-slow.visible { opacity: 1; }
+
+  /* ─── DIVIDERS ─── */
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: var(--ghost);
+    margin: 3rem auto;
+    opacity: 0.3;
+  }
+  .divider-full {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #333, transparent);
+    margin: 4rem 0;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 0 — PRE-LOADER
+  ════════════════════════════════════════════ */
+  #preloader {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    transition: opacity 1s ease, visibility 1s ease;
+  }
+  #preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .preloader-bat { animation: breathe 2s ease infinite; }
+  .preloader-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+    color: var(--ghost);
+    animation: breathe 2s ease infinite;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 1 — THE VOID
+  ════════════════════════════════════════════ */
+  #ch1 {
+    background: #000;
+    text-align: center;
+    min-height: 100vh;
+    justify-content: center;
+    gap: 0;
+  }
+  .ch1-tagline-top {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(0.6rem, 1vw, 0.75rem);
+    letter-spacing: 0.5em;
+    color: var(--ghost);
+    opacity: 0.4;
+    margin-bottom: 5rem;
+  }
+  .ch1-main-word {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 18vw, 16rem);
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    color: var(--white);
+    animation: textReveal 2s ease forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+  }
+  .ch1-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: var(--dim-white);
+    letter-spacing: 0.05em;
+    margin-top: 2rem;
+    line-height: 1.6;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 1.5s;
+    opacity: 0;
+  }
+  .ch1-sub2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+    color: var(--ghost);
+    margin-top: 1rem;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 2.5s;
+    opacity: 0;
+  }
+  .ch1-bat-wrap {
+    margin: 4rem 0 3rem;
+    animation: fadeIn 2.5s ease forwards;
+    animation-delay: 1s;
+    opacity: 0;
+  }
+  .ch1-bat-wrap svg {
+    animation: breathe 4s ease infinite;
+  }
+  .ch1-feelings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 3rem 0;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 2s;
+    opacity: 0;
+  }
+  .ch1-feelings span {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+    color: var(--ghost);
+    letter-spacing: 0.03em;
+  }
+  .ch1-quote {
+    max-width: 680px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--off-white);
+    border-left: 1px solid #333;
+    padding-left: 2rem;
+    text-align: left;
+    margin: 3rem auto;
+    animation: fadeUp 1.5s ease forwards;
+    animation-delay: 3s;
+    opacity: 0;
+  }
+  .ch1-body {
+    max-width: 560px;
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    line-height: 1.9;
+    color: var(--dim-white);
+    text-align: center;
+    margin: 0 auto;
+    animation: fadeIn 1.5s ease forwards;
+    animation-delay: 3.5s;
+    opacity: 0;
+  }
+  .cta-btn {
+    display: inline-block;
+    margin-top: 4rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    color: var(--signal-blue);
+    border: 1px solid rgba(168,200,232,0.3);
+    padding: 1rem 3rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    animation: fadeIn 1s ease forwards, glowPulse 3s ease infinite;
+    animation-delay: 4s, 5s;
+    opacity: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(168,200,232,0.05);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+  .cta-btn:hover::before { transform: scaleX(1); }
+  .cta-btn:hover {
+    color: var(--white);
+    border-color: rgba(168,200,232,0.7);
+    box-shadow: 0 0 30px rgba(168,200,232,0.15);
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 2 — THE FEAR
+  ════════════════════════════════════════════ */
+  #ch2 {
+    background: linear-gradient(180deg, #000 0%, #050810 50%, #000 100%);
+    min-height: 120vh;
+    padding: 12vh 6vw;
+  }
+  .ch2-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .ch2-whisper {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: var(--dim-white);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  .ch2-descent-text {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    line-height: 2.2;
+    color: var(--ghost);
+    font-style: italic;
+  }
+  .ch2-descent-text .line {
+    display: block;
+    margin: 0.3rem 0;
+  }
+  .ch2-break {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--off-white);
+    font-style: italic;
+    margin: 3rem 0;
+    line-height: 1.5;
+  }
+  .ch2-reveal {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.2rem, 3.5vw, 2.5rem);
+    color: var(--white);
+    letter-spacing: 0.06em;
+    margin: 3rem 0;
+    line-height: 1.4;
+  }
+  .ch2-caves {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: var(--dim-white);
+    line-height: 2;
+    margin: 2rem 0;
+    text-align: left;
+  }
+  .ch2-big-q {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    margin: 4rem 0;
+    line-height: 1;
+  }
+  .ch2-teaching {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--off-white);
+    line-height: 2;
+    font-style: italic;
+    margin: 2rem 0;
+  }
+  .ch2-final {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
+    color: var(--cold-light);
+    letter-spacing: 0.08em;
+    margin: 3rem 0;
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 3 — THE INTERSECTION
+  ════════════════════════════════════════════ */
+  #ch3 {
+    background: linear-gradient(180deg, #000 0%, #08060c 40%, #000 100%);
+    padding: 12vh 0;
+  }
+  .ch3-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 1200px;
+    gap: 0;
+    margin: 0 auto 5rem;
+    position: relative;
+  }
+  .ch3-split::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, #444, transparent);
+  }
+  .ch3-city {
+    padding: 5vh 8vw;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .ch3-city-left {
+    background: linear-gradient(135deg, #050508 0%, #0a0a14 100%);
+    text-align: right;
+  }
+  .ch3-city-right {
+    background: linear-gradient(135deg, #080604 0%, #140a08 100%);
+    text-align: left;
+  }
+  .ch3-city-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .ch3-city-left .ch3-city-name { color: var(--cold-light); }
+  .ch3-city-right .ch3-city-name { color: var(--amber); }
+  .ch3-city-desc {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: var(--ghost);
+    line-height: 1.8;
+  }
+  .ch3-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 6vw;
+    text-align: center;
+  }
+  .ch3-speech {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--dim-white);
+    line-height: 2.1;
+    margin: 2rem 0;
+  }
+  .ch3-cities-list {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+    letter-spacing: 0.15em;
+    color: var(--ghost);
+    line-height: 2;
+    margin: 2rem 0;
+  }
+  .ch3-window {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    color: var(--off-white);
+    line-height: 2.2;
+    text-align: left;
+    max-width: 560px;
+    margin: 3rem auto;
+    border-left: 1px solid #222;
+    padding-left: 2rem;
+  }
+  .ch3-not-lazy {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin: 3rem 0 1rem;
+  }
+  .ch3-wall {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--dim-white);
+    line-height: 2;
+    margin: 2rem 0;
+  }
+  .ch3-center-quote {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    color: var(--off-white);
+    border: 1px solid #222;
+    padding: 2.5rem 3rem;
+    margin: 3rem auto;
+    max-width: 620px;
+    line-height: 1.9;
+  }
+  .ch3-declaration {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 4rem);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    margin: 4rem 0;
+  }
+  .ch3-human {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    color: var(--ghost);
+    line-height: 2.2;
+    max-width: 500px;
+    margin: 2rem auto;
+  }
+  .ch3-mark-quote {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    color: var(--dim-white);
+    border-left: 2px solid var(--ghost);
+    padding-left: 1.5rem;
+    margin: 2rem auto;
+    max-width: 480px;
+    text-align: left;
+    line-height: 1.9;
+    opacity: 0.7;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 4 — THE PSYCHOLOGY
+  ════════════════════════════════════════════ */
+  #ch4 {
+    background: #000;
+    padding: 10vh 6vw;
+    align-items: flex-start;
+  }
+  .ch4-intro {
+    max-width: 600px;
+    margin: 0 auto 6rem;
+    text-align: center;
+  }
+  .ch4-intro-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--dim-white);
+    line-height: 2;
+    margin: 1rem 0;
+  }
+  .ch4-weapons-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    letter-spacing: 0.1em;
+    color: var(--white);
+    margin: 2rem 0;
+  }
+  .weapons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #111;
+  }
+  .weapon-card {
+    background: var(--black);
+    padding: 4rem 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s ease;
+    cursor: default;
+  }
+  .weapon-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0;
+    background: var(--cold-light);
+    transition: height 0.5s ease;
+  }
+  .weapon-card:hover::before { height: 100%; }
+  .weapon-card:hover { background: #080808; }
+  .weapon-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--ghost);
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+  }
+  .weapon-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin-bottom: 2rem;
+    line-height: 1;
+  }
+  .weapon-body {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    color: var(--dim-white);
+    line-height: 2;
+  }
+  .weapon-key {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    color: var(--off-white);
+    line-height: 2;
+    margin-top: 1.5rem;
+    font-style: italic;
+  }
+  .weapon-truth {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    letter-spacing: 0.12em;
+    color: var(--cold-light);
+    margin-top: 2rem;
+    opacity: 0.7;
+  }
+  .ch4-close {
+    max-width: 560px;
+    margin: 6rem auto 0;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--dim-white);
+    line-height: 2;
+  }
+  .ch4-equipment {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.8rem);
+    color: var(--white);
+    letter-spacing: 0.08em;
+    margin-top: 2rem;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 5 — THE CALL
+  ════════════════════════════════════════════ */
+  #ch5 {
+    background: radial-gradient(ellipse at 50% 0%, #0a1020 0%, #000 60%);
+    text-align: center;
+    padding: 14vh 6vw;
+  }
+  .ch5-india {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 16vw, 14rem);
+    letter-spacing: 0.06em;
+    color: var(--white);
+    line-height: 0.9;
+    animation: textReveal 2s ease forwards;
+  }
+  .ch5-watch {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--dim-white);
+    line-height: 2.2;
+    max-width: 560px;
+    margin: 3rem auto;
+  }
+  .ch5-sweep-item {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: var(--ghost);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #111;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .ch5-not-watching {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.8rem);
+    color: var(--white);
+    letter-spacing: 0.06em;
+    margin: 4rem 0 1rem;
+  }
+  .ch5-coming-for {
+    max-width: 620px;
+    margin: 3rem auto;
+    text-align: left;
+  }
+  .ch5-coming-person {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: var(--off-white);
+    line-height: 2;
+    margin-bottom: 2.5rem;
+    padding-left: 1.5rem;
+    border-left: 1px solid #222;
+  }
+  .ch5-coming-person .coming-tag {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--cold-light);
+    margin-bottom: 0.5rem;
+    opacity: 0.6;
+  }
+  .ch5-mission {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    color: var(--dim-white);
+    line-height: 2;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .ch5-darkness-decl {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 4.5rem);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    margin: 5rem 0 1rem;
+  }
+  .ch5-setting {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    color: var(--cold-light);
+    margin-bottom: 4rem;
+  }
+  .ch5-signal-watch {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    color: var(--ghost);
+    line-height: 2;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  /* Signal beam visual */
+  .ch5-beam {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--cold-light), transparent 60%);
+    opacity: 0.08;
+    animation: signalSweep 6s ease-in-out infinite;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 6 — THE MANIFESTO
+  ════════════════════════════════════════════ */
+  #ch6 {
+    background: #000;
+    padding: 14vh 6vw;
+    text-align: center;
+  }
+  .manifesto-line-sm {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--dim-white);
+    line-height: 2;
+    max-width: 480px;
+    margin: 0 auto 1rem;
+  }
+  .manifesto-line-md {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--off-white);
+    line-height: 1.6;
+    max-width: 680px;
+    margin: 1.5rem auto;
+  }
+  .manifesto-line-lg {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    color: var(--white);
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+    margin: 4rem 0 2rem;
+  }
+  .manifesto-line-xl {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 10rem);
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    margin: 5rem 0;
+  }
+  .manifesto-block {
+    max-width: 560px;
+    margin: 1rem auto 4rem;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.7vw, 1.1rem);
+    color: var(--ghost);
+    line-height: 2.1;
+  }
+  .manifesto-final {
+    max-width: 540px;
+    margin: 4rem auto;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: var(--dim-white);
+    line-height: 2;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 7 — THE SIGNAL GOES UP
+  ════════════════════════════════════════════ */
+  #ch7 {
+    background: radial-gradient(ellipse at 50% 100%, #081018 0%, #000 50%);
+    text-align: center;
+    padding: 12vh 6vw;
+  }
+  .ch7-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+    letter-spacing: 0.5em;
+    color: var(--ghost);
+    opacity: 0.4;
+    margin-bottom: 4rem;
+  }
+  .ch7-speech {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--dim-white);
+    line-height: 2.2;
+    max-width: 580px;
+    margin: 0 auto 3rem;
+  }
+  .ch7-announcement {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 4rem);
+    color: var(--white);
+    letter-spacing: 0.06em;
+    margin: 4rem 0 2rem;
+  }
+  .ch7-not-a-course {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: var(--ghost);
+    line-height: 2.2;
+    max-width: 480px;
+    margin: 0 auto 3rem;
+  }
+  .ch7-framework {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    color: var(--off-white);
+    line-height: 2;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .ch7-promises {
+    max-width: 600px;
+    margin: 3rem auto;
+    text-align: left;
+  }
+  .ch7-promise {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.7vw, 1.1rem);
+    color: var(--dim-white);
+    padding: 1.2rem 0;
+    border-bottom: 1px solid #111;
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.8;
+  }
+  .ch7-promise::before {
+    content: '—';
+    position: absolute;
+    left: -1.5rem;
+    color: var(--cold-light);
+    opacity: 0.5;
+  }
+  .ch7-signal-up {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 6vw, 5rem);
+    color: var(--white);
+    letter-spacing: 0.08em;
+    margin: 5rem 0 1rem;
+  }
+  .ch7-signal-up-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+    color: var(--ghost);
+    line-height: 2;
+    max-width: 520px;
+    margin: 0 auto 4rem;
+  }
+  /* Email form */
+  .signal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem auto;
+    max-width: 480px;
+  }
+  .signal-form-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--ghost);
+    opacity: 0.6;
+  }
+  .signal-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    padding: 1rem 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s ease;
+    letter-spacing: 0.05em;
+  }
+  .signal-input::placeholder { color: var(--ghost); opacity: 0.4; }
+  .signal-input:focus { border-color: var(--cold-light); }
+  .signal-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.4em;
+    color: var(--black);
+    background: var(--white);
+    border: none;
+    padding: 1rem 4rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+  }
+  .signal-btn:hover {
+    background: var(--cold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(168,200,232,0.2);
+  }
+  .signal-response {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--cold-light);
+    margin-top: 1rem;
+    display: none;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 8 — WHO ARE YOU
+  ════════════════════════════════════════════ */
+  #ch8 {
+    background: #000;
+    text-align: center;
+    padding: 12vh 6vw;
+    align-items: center;
+  }
+  .ch8-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: var(--dim-white);
+    line-height: 2;
+    max-width: 540px;
+    margin: 0 auto 4rem;
+  }
+  .portraits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: #0a0a0a;
+    max-width: 1100px;
+    margin: 0 auto 5rem;
+    width: 100%;
+  }
+  .portrait-card {
+    background: var(--black);
+    padding: 4rem 3rem;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s ease;
+  }
+  .portrait-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #222, transparent);
+  }
+  .portrait-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    color: var(--ghost);
+    opacity: 0.4;
+    margin-bottom: 1.5rem;
+  }
+  .portrait-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.95rem, 1.7vw, 1.1rem);
+    color: var(--off-white);
+    line-height: 2.1;
+    font-style: italic;
+  }
+  .portrait-truth {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: var(--cold-light);
+    margin-top: 1.5rem;
+    line-height: 1.9;
+    opacity: 0.8;
+  }
+  .ch8-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    color: var(--off-white);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+  }
+  .ch8-you-are-signal {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 9vw, 8rem);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin: 5rem 0 2rem;
+  }
+  .ch8-explanation {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.7vw, 1.1rem);
+    color: var(--ghost);
+    line-height: 2.2;
+    max-width: 520px;
+    margin: 0 auto 4rem;
+  }
+  .ch8-city-watch {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--dim-white);
+    line-height: 2;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAPTER 9 — THE SEAL
+  ════════════════════════════════════════════ */
+  #ch9 {
+    background: #000;
+    text-align: center;
+    padding: 14vh 6vw;
+    min-height: 120vh;
+  }
+  .ch9-only-thing {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: var(--dim-white);
+    line-height: 2;
+    max-width: 500px;
+    margin: 0 auto 3rem;
+  }
+  .ch9-not-the {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.7vw, 1.1rem);
+    color: var(--ghost);
+    line-height: 2.3;
+    max-width: 460px;
+    margin: 0 auto 3rem;
+    opacity: 0.7;
+  }
+  .ch9-the-decision {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 14vw, 12rem);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    margin: 4rem 0;
+  }
+  .ch9-drone {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--off-white);
+    line-height: 2;
+    max-width: 540px;
+    margin: 3rem auto;
+  }
+  .ch9-become {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.7vw, 1.1rem);
+    color: var(--ghost);
+    line-height: 2.2;
+    max-width: 480px;
+    margin: 2rem auto 5rem;
+  }
+  .ch9-gotham-india {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    letter-spacing: 0.08em;
+    color: var(--white);
+    line-height: 1.4;
+    margin: 3rem 0;
+  }
+  .ch9-thats-you {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: var(--white);
+    margin: 5rem 0;
+  }
+  /* FOOTER / SEAL */
+  .site-footer {
+    background: #000;
+    text-align: center;
+    padding: 8vh 6vw 6vh;
+    border-top: 1px solid #111;
+  }
+  .footer-bat { margin-bottom: 3rem; }
+  .footer-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 0.12em;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .footer-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--ghost);
+    margin-bottom: 3rem;
+  }
+  .footer-quote {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    color: var(--ghost);
+    opacity: 0.6;
+    margin-bottom: 2rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .footer-signal {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+    color: var(--cold-light);
+    opacity: 0.5;
+    margin-bottom: 4rem;
+  }
+  .footer-email-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem 0 4rem;
+  }
+  .footer-built {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--ghost);
+    opacity: 0.3;
+    letter-spacing: 0.1em;
+    margin-top: 4rem;
+  }
+
+  /* ─── CHAPTER NAV DOTS ─── */
+  .nav-dots {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    z-index: 100;
+  }
+  .nav-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--ghost);
+    opacity: 0.3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .nav-dot.active {
+    opacity: 1;
+    background: var(--cold-light);
+    transform: scale(1.5);
+  }
+  .nav-dot:hover { opacity: 0.7; }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--cold-light));
+    z-index: 1000;
+    transition: width 0.1s ease;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .ch3-split { grid-template-columns: 1fr; }
+    .ch3-split::after { display: none; }
+    .weapons-grid { grid-template-columns: 1fr; }
+    .portraits-grid { grid-template-columns: 1fr; }
+    .nav-dots { display: none; }
+  }
+
+  /* ─── BAT SVG PATH ─── */
+  .bat-path { fill: currentColor; }
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <svg class="bat-symbol preloader-bat" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <path class="bat-path" d="M100,30 C90,10 70,5 50,15 C30,25 10,20 0,35 C15,30 30,40 40,50 C30,55 25,65 30,75 C40,60 55,55 65,65 C72,75 80,80 100,80 C120,80 128,75 135,65 C145,55 160,60 170,75 C175,65 170,55 160,50 C170,40 185,30 200,35 C190,20 170,25 150,15 C130,5 110,10 100,30Z"/>
+  </svg>
+  <div class="preloader-text">PROJECT GOTHAM · INDIA 2026</div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- NAV DOTS -->
+<nav class="nav-dots" aria-label="Chapter navigation">
+  <div class="nav-dot active" data-chapter="ch1" title="The Void"></div>
+  <div class="nav-dot" data-chapter="ch2" title="The Fear"></div>
+  <div class="nav-dot" data-chapter="ch3" title="The Intersection"></div>
+  <div class="nav-dot" data-chapter="ch4" title="The Psychology"></div>
+  <div class="nav-dot" data-chapter="ch5" title="The Call"></div>
+  <div class="nav-dot" data-chapter="ch6" title="The Manifesto"></div>
+  <div class="nav-dot" data-chapter="ch7" title="The Signal"></div>
+  <div class="nav-dot" data-chapter="ch8" title="Who Are You"></div>
+  <div class="nav-dot" data-chapter="ch9" title="The Seal"></div>
+</nav>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 1 — THE VOID -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch1">
+  <div class="signal-beam"></div>
+  <div class="ch1-tagline-top reveal">PROJECT GOTHAM &middot; INDIA 2026 &middot; THE SIGNAL IS UP</div>
+
+  <div class="ch1-main-word">GOTHAM</div>
+  <div class="ch1-subtitle">isn't a city.</div>
+  <div class="ch1-sub2">It's a feeling you already know.</div>
+
+  <div class="ch1-bat-wrap">
+    <svg class="bat-symbol bat-symbol-lg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+      <path class="bat-path" d="M100,30 C90,10 70,5 50,15 C30,25 10,20 0,35 C15,30 30,40 40,50 C30,55 25,65 30,75 C40,60 55,55 65,65 C72,75 80,80 100,80 C120,80 128,75 135,65 C145,55 160,60 170,75 C175,65 170,55 160,50 C170,40 185,30 200,35 C190,20 170,25 150,15 C130,5 110,10 100,30Z"/>
+    </svg>
+  </div>
+
+  <div class="ch1-feelings">
+    <span>The loneliness at 3AM.</span>
+    <span>The weight of a path no one around you understands.</span>
+    <span>The rage of potential — trapped.</span>
+    <span>The exhaustion of fighting demons no one else can see.</span>
+  </div>
+
+  <blockquote class="ch1-quote">
+    "He didn't become Batman to save the city. He became Batman because the darkness inside needed somewhere to go."
+  </blockquote>
+
+  <p class="ch1-body">
+    This is not a story about a billionaire in a cape.<br>
+    This is a story about what you do when the darkness inside you<br>
+    becomes too heavy to carry and too powerful to waste.
+  </p>
+
+  <a href="#ch2" class="cta-btn">[ DESCEND ]</a>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 2 — THE FEAR -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch2">
+  <div class="divider-full"></div>
+  <div class="ch2-inner">
+    <div class="chapter-label reveal">✍ Chapter Two — The Fear</div>
+
+    <div class="ch2-whisper reveal">
+      "I want to tell you something nobody told me."<br><br>
+      "The thing you are most afraid of — is trying to tell you something."
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="ch2-descent-text reveal">
+      <span class="line">I was eight years old when I fell into that cave.</span>
+      <span class="line">Not metaphorically.</span>
+      <span class="line">Literally — the ground gave way beneath me,</span>
+      <span class="line">and I fell into darkness so complete</span>
+      <span class="line">that I couldn't tell which way was up.</span>
+      <span class="line">And then they came.</span>
+      <span class="line">Thousands of them.</span>
+      <span class="line">Erupting from the dark.</span>
+      <span class="line">Wings. Sound. Chaos.</span>
+      <span class="line">The kind of fear that doesn't just live in your mind —</span>
+      <span class="line">it lives in your body.</span>
+      <span class="line">Your chest. Your throat. Your hands.</span>
+    </div>
+
+    <div class="ch2-break reveal">
+      But here is what I never told anyone.<br>
+      <em>I went back.</em>
+    </div>
+
+    <div class="ch2-descent-text reveal">
+      <span class="line">Not immediately.</span>
+      <span class="line">Not bravely. Not because I had a plan.</span>
+      <span class="line">I went back because I understood —</span>
+      <span class="line">even at eight years old —</span>
+      <span class="line">that anything capable of producing that much fear</span>
+      <span class="line">inside me was worth understanding.</span>
+      <span class="line">Fear that large doesn't come from nothing.</span>
+      <span class="line">It comes from something that matters.</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="ch2-caves reveal">
+      I know why you haven't gone back to your cave yet.<br><br>
+      Maybe your cave is the conversation you haven't had with your father about the life you actually want to live.<br><br>
+      Maybe it's the business idea you've written in three different notebooks and shown to nobody.<br><br>
+      Maybe it's the mirror. The one you avoid in the moments when the performance drops and you see exactly where you are versus where you told yourself you'd be.
+    </div>
+
+    <div class="ch2-big-q reveal">"Is this it?"</div>
+
+    <div class="ch2-teaching reveal">
+      I'm not going to tell you it gets easier.<br>
+      I'm going to tell you something more useful.<br><br>
+      The fear doesn't go away.<br>
+      You build a relationship with it.<br>
+      You stop asking it to leave.<br>
+      You start asking it —<br><br>
+      <em>"What are you protecting me from?<br>
+      What are you pointing me toward?"</em><br><br>
+      Fear is the most honest thing inside you.<br>
+      It has never lied to you once.<br>
+      It only ever points at what matters.
+    </div>
+
+    <div class="ch2-reveal reveal">
+      "I BECAME BATMAN BECAUSE I FINALLY<br>STOPPED RUNNING FROM THE CLASSROOM."
+    </div>
+
+    <div class="ch2-final reveal">
+      Your cave has been waiting.<br>
+      It isn't going anywhere.<br>
+      Neither are you — until you go back.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 3 — THE INTERSECTION -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch3" style="padding-top:14vh; padding-bottom:14vh;">
+  <div class="chapter-label reveal">✍ Chapter Three — The Intersection</div>
+
+  <div class="ch3-split reveal">
+    <div class="ch3-city ch3-city-left">
+      <div class="ch3-city-name">GOTHAM</div>
+      <div class="ch3-city-desc">Monochrome. Gothic architecture.<br>Fire escapes. Steam rising from grates.<br>Cold blue-white light. Rain falling.</div>
+    </div>
+    <div class="ch3-city ch3-city-right">
+      <div class="ch3-city-name">INDIA</div>
+      <div class="ch3-city-desc">Dense apartment buildings. Clotheslines.<br>Neon shop signs in Hindi, half-flickering.<br>A chai stall — the only warm light.</div>
+    </div>
+  </div>
+
+  <div class="ch3-inner">
+    <div class="ch3-speech reveal">
+      People ask me why I came to India.<br>
+      They expect an answer about geography. About strategy. About expansion.<br><br>
+      The real answer is simpler.<br>
+      <strong>I came because I recognised it.</strong>
+    </div>
+
+    <div class="ch3-cities-list reveal">
+      MUMBAI AT 3AM · DELHI AT 3AM<br>
+      PATNA · INDORE · COIMBATORE<br>
+      BHOPAL · NAGPUR · LUCKNOW<br>
+      EVERY CITY YOU'VE EVER CALLED HOME<br>
+      AT 3 IN THE MORNING
+    </div>
+
+    <div class="ch3-speech reveal">
+      The same silence.<br>
+      The same weight.<br>
+      The same lit windows.<br>
+      The same people behind them wondering<br>
+      if anyone else is awake with the same question.
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="ch3-window reveal">
+      A boy — maybe 22, maybe 27 — sitting with a phone in his hand he stopped scrolling an hour ago.<br><br>
+      Because scrolling stopped helping.<br><br>
+      His parents are asleep in the next room. Good people. People who worked every day of their lives so that he wouldn't have to struggle the way they did.<br><br>
+      And he is struggling anyway. Just differently. In ways they don't have the language for. In ways he doesn't have the courage to explain yet.
+    </div>
+
+    <div class="ch3-not-lazy reveal">HE IS NOT LAZY.</div>
+
+    <div class="ch3-wall reveal">
+      He is the first person in his family trying to climb a wall that nobody in his family has ever climbed before.<br><br>
+      He has no map. He has no rope.<br>
+      He has ambition —<br>
+      which is the most painful thing to have<br>
+      when you don't yet know what to do with it.
+    </div>
+
+    <blockquote class="ch3-center-quote reveal">
+      "Your confusion is not weakness. It is the entirely correct response to being handed a life with enormous expectation and very little instruction."
+    </blockquote>
+
+    <div class="ch3-declaration reveal">
+      "I AM STANDING HERE<br>BECAUSE I RECOGNISE YOU."
+    </div>
+
+    <div class="ch3-human reveal">
+      I recognise the weight of being someone's entire retirement plan when you haven't figured out your own life yet.<br><br>
+      I recognise the exhaustion of performing okayness for people who need you to be okay.<br><br>
+      I recognise the grief — and yes, it is grief — of watching the version of yourself you imagined at sixteen get further away with every year that passes without movement.
+    </div>
+
+    <div class="divider"></div>
+
+    <blockquote class="ch3-mark-quote reveal">
+      "I was here. It was this dark for me too. This is what I found on the other side. Follow this."
+    </blockquote>
+
+    <div class="ch3-speech reveal">
+      That mark — is why I'm here.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 4 — THE PSYCHOLOGY -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch4">
+  <div class="chapter-label reveal" style="text-align:center;width:100%;">✍ Chapter Four — The Arsenal</div>
+
+  <div class="ch4-intro">
+    <div class="ch4-intro-text reveal">
+      I want to give you something.<br>
+      Not motivation. Motivation is a feeling. Feelings pass.<br>
+      Not inspiration. Inspiration is a spark. Sparks die without architecture.
+    </div>
+    <div class="ch4-intro-text reveal" style="margin-top:1.5rem;">
+      I want to give you what I actually used.<br>
+      The six things I built myself on when there was nothing else to build on.<br>
+      The six things that are still true at 3AM.
+    </div>
+    <div class="ch4-weapons-label reveal">These are not lessons. They are weapons.</div>
+  </div>
+
+  <div class="weapons-grid">
+
+    <div class="weapon-card reveal">
+      <div class="weapon-num">WEAPON ONE</div>
+      <div class="weapon-name">THE WOUND</div>
+      <div class="weapon-body">
+        Every person who has ever built something real built it from their deepest wound. Not despite it. From it.<br><br>
+        Your wound is the most specific thing about you. It is the thing nobody else has in exactly your shape. Which means the thing you build from it will be something nobody else can build.
+      </div>
+      <div class="weapon-key">
+        The wound is not the problem.<br>
+        The wound is the blueprint.
+      </div>
+      <div class="weapon-truth">WHAT DOES THIS WOUND KNOW THAT YOU HAVEN'T LISTENED TO YET?</div>
+    </div>
+
+    <div class="weapon-card reveal">
+      <div class="weapon-num">WEAPON TWO</div>
+      <div class="weapon-name">THE SILENCE</div>
+      <div class="weapon-body">
+        Nobody is coming. Not as cruelty — but as the most liberating truth I ever accepted.<br><br>
+        Nobody is coming to hand you the map. Nobody is coming to tell you that this is the right moment. That you are ready. That it is safe to begin.<br><br>
+        The night I finally understood that nobody was going to come — was the night I became dangerous.
+      </div>
+      <div class="weapon-key">
+        The permission you are waiting for<br>
+        lives inside the decision you keep almost making.
+      </div>
+      <div class="weapon-truth">MAKE IT.</div>
+    </div>
+
+    <div class="weapon-card reveal">
+      <div class="weapon-num">WEAPON THREE</div>
+      <div class="weapon-name">THE FEAR</div>
+      <div class="weapon-body">
+        Fear has a grammar. Learn the grammar and fear becomes readable. Readable things cannot control you the way unreadable things can.<br><br>
+        Fear always appears directly in front of the thing that matters most. Always. Without exception.<br><br>
+        The size of your fear is a direct measurement of the size of what's behind it.
+      </div>
+      <div class="weapon-key">
+        Fear is not a stop sign.<br>
+        Fear is a signpost.
+      </div>
+      <div class="weapon-truth">IT IS POINTING DIRECTLY AT WHAT YOU ARE HERE TO DO.</div>
+    </div>
+
+    <div class="weapon-card reveal">
+      <div class="weapon-num">WEAPON FOUR</div>
+      <div class="weapon-name">THE NIGHT</div>
+      <div class="weapon-body">
+        During the day everything performs. The city performs productivity. People perform okayness. You perform certainty you do not feel.<br><br>
+        The night drops the performance. And in that silence between midnight and 4AM — the real work becomes possible.
+      </div>
+      <div class="weapon-key">
+        Most people call that hour loneliness.<br>
+        I call it the lab.
+      </div>
+      <div class="weapon-truth">STOP CALLING YOUR MOST HONEST HOUR YOUR WORST HOUR.</div>
+    </div>
+
+    <div class="weapon-card reveal">
+      <div class="weapon-num">WEAPON FIVE</div>
+      <div class="weapon-name">THE SYSTEM</div>
+      <div class="weapon-body">
+        Motivation is weather. It changes. It disappears. It arrives uninvited and leaves the same way. You cannot build a life on weather.<br><br>
+        I did not become Batman on the nights I felt like it. I became Batman on the nights I absolutely did not feel like it — and went into the cave anyway.
+      </div>
+      <div class="weapon-key">
+        Inspiration is the spark.<br>
+        Discipline is the generator.
+      </div>
+      <div class="weapon-truth">BUILD THE GENERATOR. STOP WAITING FOR THE SPARK.</div>
+    </div>
+
+    <div class="weapon-card reveal" style="border-bottom:1px solid var(--cold-light); border-bottom-width:2px;">
+      <div class="weapon-num">WEAPON SIX</div>
+      <div class="weapon-name">THE SYMBOL</div>
+      <div class="weapon-body">
+        At some point you will face the question I faced on the worst night of my life. Lying broken — every bone, every belief, every plan.<br><br>
+        The question was not: "Can I get up?"<br>
+        The question was: "Why?"<br><br>
+        I got up for Gotham. For the ones who needed someone to have gotten up.
+      </div>
+      <div class="weapon-key">
+        Find your Gotham. Not a city. A reason.<br>
+        A reason bigger than your comfort, your fear, your current circumstances.
+      </div>
+      <div class="weapon-truth">BECOME THE SYMBOL. FOR SOMEONE. FOR ANYONE.</div>
+    </div>
+
+  </div>
+
+  <div class="ch4-close reveal">
+    Six weapons. All of them forged in the dark.<br>
+    All of them yours. All of them already inside you —<br>
+    waiting for you to stop calling them wounds<br>
+    and start calling them what they actually are.
+    <div class="ch4-equipment">EQUIPMENT.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 5 — THE CALL -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch5">
+  <div class="ch5-beam"></div>
+  <div class="chapter-label reveal">✍ Chapter Five — Batman Speaks To India</div>
+
+  <div class="ch5-india reveal">INDIA.</div>
+
+  <div class="ch5-watch reveal">
+    I have watched you. Not from a distance. Not with pity. Not with the comfortable detachment of someone observing a problem they do not intend to enter.<br><br>
+    I have watched you the way I watch Gotham. From the rooftops. From the inside. From the place where you can see everything the ground cannot.
+  </div>
+
+  <div style="max-width:560px;margin:0 auto;width:100%;">
+    <div class="ch5-sweep-item reveal">— A family dinner table. Silent. Tense with unspoken things.</div>
+    <div class="ch5-sweep-item reveal">— A young person's hand writing something and then crossing it out.</div>
+    <div class="ch5-sweep-item reveal">— A phone screen showing a job rejection email. Thumb hovering over it.</div>
+    <div class="ch5-sweep-item reveal">— A mother's hands folded in her lap. Waiting for something.</div>
+  </div>
+
+  <div class="ch5-not-watching reveal">I AM NOT HERE TO WATCH ANYMORE.</div>
+
+  <div class="ch5-coming-for reveal">
+
+    <div class="ch5-coming-person">
+      <span class="coming-tag">TO THE BOY IN THE TIER-3 CITY</span>
+      who has been told his whole life that people like him don't make it to places like that —<br>
+      <strong>I am coming for you specifically.</strong>
+    </div>
+
+    <div class="ch5-coming-person">
+      <span class="coming-tag">TO THE GIRL IN THE WRONG DEGREE</span>
+      two years into an engineering degree she does not want, sitting in a classroom teaching her everything except who she actually is —<br>
+      <strong>I am coming for you specifically.</strong>
+    </div>
+
+    <div class="ch5-coming-person">
+      <span class="coming-tag">TO THE FIRST GENERATION</span>
+      the one with no map, whose parents worked themselves into the ground so you could stand on it — and now you're standing on it not knowing which direction to walk —<br>
+      <strong>I am coming for you specifically.</strong>
+    </div>
+
+    <div class="ch5-coming-person">
+      <span class="coming-tag">TO THE 3AM PERSON</span>
+      reading this at an hour when the honest version of themselves is the only version awake — who knows, in the quiet, in the weight — that something has to change —<br>
+      <strong>I am coming for you. Most specifically. Most urgently. Most of all.</strong>
+    </div>
+
+  </div>
+
+  <div class="ch5-mission reveal">
+    I am not coming with motivation.<br>
+    I am coming with a system.<br>
+    I am not coming with inspiration.<br>
+    I am coming with a framework —<br>
+    built from the darkest materials —<br>
+    tested in the worst conditions —<br>
+    designed for exactly the life you are living right now.
+  </div>
+
+  <div class="ch5-darkness-decl reveal">
+    YOUR DARKNESS IS NOT<br>THE END OF YOUR STORY.
+  </div>
+  <div class="ch5-setting reveal">It is the setting for it.</div>
+
+  <div class="ch5-signal-watch reveal">
+    Something is coming to India.<br>
+    Not a product. Not a course.<br>
+    Not another voice telling you to hustle harder<br>
+    in a language that was never built for what you are actually carrying.<br><br>
+    Something built in the dark. For the ones who live there.<br><br>
+    <strong>A signal. Watch for it.</strong>
+  </div>
+
+  <div style="margin-top:3rem;" class="reveal">
+    <svg class="bat-symbol" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" style="opacity:0.5;animation:breathe 4s ease infinite;">
+      <path class="bat-path" d="M100,30 C90,10 70,5 50,15 C30,25 10,20 0,35 C15,30 30,40 40,50 C30,55 25,65 30,75 C40,60 55,55 65,65 C72,75 80,80 100,80 C120,80 128,75 135,65 C145,55 160,60 170,75 C175,65 170,55 160,50 C170,40 185,30 200,35 C190,20 170,25 150,15 C130,5 110,10 100,30Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 6 — THE MANIFESTO -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch6">
+  <div class="chapter-label reveal">✍ Chapter Six — The Manifesto</div>
+
+  <div class="manifesto-line-sm reveal">I have been broken.</div>
+  <div class="manifesto-line-sm reveal">Not metaphorically.</div>
+  <div class="manifesto-line-md reveal">Every bone. Every plan.<br>Every version of myself I had decided was the final one.</div>
+  <div class="manifesto-line-md reveal" style="margin-top:2rem;">And I am standing here.</div>
+
+  <div class="divider" style="margin:3rem auto;"></div>
+
+  <div class="manifesto-line-lg reveal">YOU ARE NOT BEHIND.</div>
+  <div class="manifesto-block reveal">
+    You are building in the dark. Which is harder. Which takes longer.<br>
+    Which produces something that light-built things cannot replicate.<br><br>
+    Things built in the dark know how to survive the dark.<br><br>
+    Your timeline is not broken. Your timeline is different.<br>
+    Different is not lesser. Different is just — different.
+  </div>
+
+  <div class="manifesto-line-lg reveal">YOUR CONFUSION IS NOT WEAKNESS.</div>
+  <div class="manifesto-block reveal">
+    It is the correct response to a life with enormous stakes and insufficient instruction.<br><br>
+    Nobody gave you the manual. Not because you didn't deserve one.<br>
+    Because no manual exists for the specific life you are here to build.<br><br>
+    You are not confused because you are lost.<br>
+    You are confused because you are the first.
+  </div>
+
+  <div class="manifesto-line-lg reveal">THE PRESSURE YOU FEEL IS NOT PUNISHMENT.</div>
+  <div class="manifesto-block reveal">
+    I know about the parents. I know the specific weight of being someone's entire definition of success.<br><br>
+    And you cannot tell them the paralysis feels like ingratitude.<br>
+    But you are not ungrateful. You are overwhelmed. And those are not the same thing.<br><br>
+    The pressure they give you is not a weapon. It is a language.<br>
+    The only language some people have for saying:<br><em>"I believe in you so much it frightens me."</em><br><br>
+    Hear the love inside the pressure. Then use the pressure. Convert it.
+  </div>
+
+  <div class="manifesto-line-lg reveal">BEING BROKEN IS NOT THE<br>SAME AS BEING FINISHED.</div>
+  <div class="manifesto-block reveal">
+    That choice is not made with strength. Nobody has strength at the bottom.<br>
+    That choice is made with something smaller than strength. Something more durable.<br><br>
+    <em>A refusal.</em><br><br>
+    A small, quiet, unreasonable refusal to accept that this moment, this floor, this darkness — is the final word on who you are.
+  </div>
+
+  <div class="manifesto-block reveal" style="color:var(--dim-white);">
+    You are still here. Reading this. At whatever hour this is.<br>
+    After whatever this week was. After whatever this year has been.<br><br>
+    Still here. Still looking.<br>
+    Still — somewhere underneath all the weight — still wanting.<br><br>
+    That wanting — that stubborn, unreasonable, inconvenient wanting —<br>
+    is the most important thing about you.
+  </div>
+
+  <div class="manifesto-line-xl reveal">READY.</div>
+
+  <div class="manifesto-final reveal">
+    Not ready because the fear is gone.<br>
+    Ready because you have decided the fear is no longer the one making the decisions.<br><br>
+    Not ready because the path is clear.<br>
+    Ready because you have accepted that clarity is not a prerequisite for movement.<br><br>
+    Not ready because you know how it ends.<br>
+    Ready because you understand — finally — that not knowing how it ends is the only condition under which anything worth doing has ever been done.
+  </div>
+
+  <div class="manifesto-line-sm reveal" style="color:var(--off-white);font-size:clamp(1rem,2vw,1.3rem);max-width:560px;">
+    I did not know how it would end.<br>
+    I only knew I had to begin.<br>
+    That was enough.
+  </div>
+
+  <div class="manifesto-line-md reveal" style="color:var(--white);margin-top:3rem;">
+    It will be enough for you too.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 7 — THE SIGNAL GOES UP -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch7">
+  <div class="ch5-beam" style="opacity:0.12;"></div>
+  <div class="chapter-label reveal">✍ Chapter Seven — The Signal Goes Up</div>
+
+  <div class="ch7-speech reveal">
+    For a long time — Gotham was the only city I understood.<br>
+    Its particular darkness. Its particular weight.<br>
+    The way it broke its people and the way its people — the stubborn ones, the unreasonable ones — broke back.<br><br>
+    I thought darkness had a specific geography.<br>
+    <strong>I was wrong.</strong>
+  </div>
+
+  <div class="ch7-speech reveal">
+    Darkness is not a place.<br>
+    Darkness is a condition.<br><br>
+    And the condition — the specific condition of enormous potential meeting insufficient direction — is not unique to Gotham. It never was.
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="ch7-announcement reveal">WHAT IS COMING</div>
+
+  <div class="ch7-not-a-course reveal">
+    Is not a course.<br>
+    Is not a program.<br>
+    Is not another voice telling you to wake up at 5AM<br>
+    and cold shower your way to a better life.
+  </div>
+
+  <div class="ch7-framework reveal">
+    What is coming is a framework.<br>
+    Built from the darkest materials.<br>
+    Tested in the worst conditions.<br>
+    Designed for exactly the life you are living.
+  </div>
+
+  <div class="ch7-promises reveal">
+    <div class="ch7-promise">For converting your wound into your most precise tool.</div>
+    <div class="ch7-promise">For building a system that works at 3AM when motivation has long gone home.</div>
+    <div class="ch7-promise">For understanding the fear well enough to stop being controlled by it and start being directed by it.</div>
+    <div class="ch7-promise">For finding the reason — the one bigger than comfort — that will get you up from every floor you will ever find yourself on.</div>
+    <div class="ch7-promise">For building something finally worthy of everything you have already survived.</div>
+  </div>
+
+  <div class="ch7-signal-up reveal">THE SIGNAL IS UP.</div>
+  <div class="ch7-signal-up-sub reveal">
+    It has been up since the moment you arrived at this page.<br>
+    Since the moment something in you — something below the noise, below the performance, below the exhaustion — decided to click.<br><br>
+    You didn't come here by accident.<br>
+    The signal found you because you were already pointing in this direction.<br>
+    You were already looking for this. Long before this existed.
+  </div>
+
+  <div class="signal-form reveal">
+    <div class="signal-form-label">SEND THE SIGNAL BACK</div>
+    <input type="email" class="signal-input" id="emailInput1" placeholder="Your email. That's all." autocomplete="off">
+    <button class="signal-btn" onclick="handleSignal('emailInput1','signalResp1')">I'M HERE.</button>
+    <div class="signal-response" id="signalResp1">Signal received.<br><em>Good. I see you. Don't go anywhere.</em></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 8 — WHO ARE YOU -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch8">
+  <div class="chapter-label reveal">✍ Chapter Eight — The Mirror Has No Mercy</div>
+
+  <div class="ch8-intro reveal">
+    Before I go — I want to do one thing.<br>
+    I want to tell you exactly who I think you are.<br><br>
+    Not who you present. Not who you perform.<br>
+    The real one. The one that exists in the honest hours.<br><br>
+    <em>Tell me if I'm wrong.</em>
+  </div>
+
+  <div class="portraits-grid">
+
+    <div class="portrait-card reveal">
+      <div class="portrait-num">PORTRAIT ONE</div>
+      <div class="portrait-body">
+        You are someone who thinks more deeply than the people around you and has learned — slowly, painfully — to hide that. Because thinking deeply in rooms that reward quick confident answers makes you look slow.
+      </div>
+      <div class="portrait-truth">
+        You are not slow. You are thorough. You are searching for the real answer in a world that has made peace with the convenient one. That is not a weakness. That is the beginning of every important thing that has ever been built.
+      </div>
+    </div>
+
+    <div class="portrait-card reveal">
+      <div class="portrait-num">PORTRAIT TWO</div>
+      <div class="portrait-body">
+        You carry people. Quietly. Without announcing it. Without keeping score. You are the one who absorbs the mood of a room the moment you enter it. Who adjusts yourself — automatically, exhaustingly — to make space for everyone else. Then goes home and has nothing left for yourself.
+      </div>
+      <div class="portrait-truth">
+        You have been calling this sensitivity. I call it a form of intelligence you have never been taught how to use in your own direction.
+      </div>
+    </div>
+
+    <div class="portrait-card reveal">
+      <div class="portrait-num">PORTRAIT THREE</div>
+      <div class="portrait-body">
+        You have a version of yourself that lives in your head. A future version. Specific. Detailed. You can see what they wear. How they carry themselves. The kind of work they do. And you have never told anyone about this version.
+      </div>
+      <div class="portrait-truth">
+        They are not a fantasy. They are a memory from a future that already exists and is waiting for you to stop treating it like a dream and start treating it like a destination.
+      </div>
+    </div>
+
+    <div class="portrait-card reveal">
+      <div class="portrait-num">PORTRAIT FOUR</div>
+      <div class="portrait-body">
+        You are the first. The first in your family to want this particular thing. To reach for this particular life. To stand at the edge of a territory nobody in your bloodline has stood at before.
+      </div>
+      <div class="portrait-truth">
+        The weight you carry is not a burden. It is ballast. It keeps you grounded when everything else is uncertain. The weight is not what holds you down. The weight is what makes you real.
+      </div>
+    </div>
+
+    <div class="portrait-card reveal">
+      <div class="portrait-num">PORTRAIT FIVE</div>
+      <div class="portrait-body">
+        You are tired. Not the tired that sleep fixes. The tired that comes from performing okayness for so long that you have forgotten what not performing feels like. The tired of being the strong one. The reliable one.
+      </div>
+      <div class="portrait-truth">
+        What you have carried — how long you have carried it — how little you have complained — is one of the most remarkable things I have witnessed in any city I have ever stood above. You deserve to put it down.
+      </div>
+    </div>
+
+    <div class="portrait-card reveal">
+      <div class="portrait-num">PORTRAIT SIX</div>
+      <div class="portrait-body">
+        You almost didn't come here. Something almost stopped you. Distraction. Doubt. The voice that says things like this aren't for people like you. But you came. And you stayed. Through seven chapters.
+      </div>
+      <div class="portrait-truth">
+        That specific refusal to look away — is the most Batman thing about you. Not the strength. Not the ambition. Not even the wound. The refusal to look away from the truth of yourself. That is where it starts.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ch8-question reveal">
+    What are you going to do<br>with everything you just felt in the last hour?
+  </div>
+
+  <div class="ch8-you-are-signal reveal">
+    YOU ARE<br>THE SIGNAL.
+  </div>
+
+  <div class="ch8-explanation reveal">
+    You always were.<br>
+    Everything you have survived — every wound, every confusion, every 3AM, every moment of sitting with the weight and choosing — even barely — to continue — was not you waiting for the signal.<br><br>
+    It was the signal building itself inside you. Becoming strong enough. Becoming specific enough. Becoming ready enough to be sent.
+  </div>
+
+  <div class="ch8-city-watch reveal">
+    Gotham needed a Batman.<br>
+    I became one. Not because I was chosen.<br>
+    Not because I was ready. Not because I wasn't afraid.<br>
+    Because I decided that the city was worth more than my comfort.<br><br>
+    Your city is watching you make the same decision.<br>
+    It has been watching for a while now.<br>
+    It already knows what you're going to choose.<br><br>
+    <em>It just needs you to know it too.</em>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CHAPTER 9 — THE SEAL -->
+<!-- ═══════════════════════════════════════ -->
+<section id="ch9">
+  <div class="chapter-label reveal">✍ Chapter Nine — What Remains</div>
+
+  <div class="ch9-only-thing reveal">
+    I want to leave you with the only thing that has ever mattered in Gotham.<br>
+    The only thing that has ever mattered anywhere.
+  </div>
+
+  <div class="ch9-not-the reveal">
+    Not the suit. The suit is just armour.<br>
+    Armour can be broken. Armour can be taken. Armour is replaceable.<br><br>
+    Not the cave. The cave is just a place.<br>
+    Places can be destroyed. Places can be found. Places can be taken from you.<br><br>
+    Not even the training. Training fades. Bodies fail. Skills erode.<br>
+    Everything physical eventually returns to the ground.
+  </div>
+
+  <div class="ch9-the-decision reveal">
+    THE<br>DECISION<br>TO<br>CONTINUE.
+  </div>
+
+  <div class="ch9-drone reveal">
+    That decision —<br>
+    made once, made again,<br>
+    made every morning before the world is watching,<br>
+    made every night when nobody is —<br>
+    is the symbol.<br><br>
+    Not the bat.<br>
+    The bat is just the shape the decision takes<br>
+    when it has been made enough times to become visible.
+  </div>
+
+  <div class="ch9-become reveal">
+    Make the decision.<br>
+    Make it again tomorrow.<br>
+    Make it on the days it costs you everything to make it.<br>
+    Especially those days.<br><br>
+    And one morning — not the morning you expect, not the morning you planned for —<br>
+    you will look up and realise that the symbol is no longer something you are reaching for.<br><br>
+    It is something you have become.
+  </div>
+
+  <div class="ch9-gotham-india reveal">
+    GOTHAM NEEDED A SYMBOL.<br>
+    I BECAME ONE.<br>
+    INDIA NEEDS ONE NOW.
+  </div>
+
+  <div class="ch9-thats-you reveal">That's you.</div>
+
+  <div style="margin:3rem 0 2rem;" class="reveal">
+    <svg class="bat-symbol bat-symbol-lg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" style="animation:breathe 4s ease infinite;">
+      <path class="bat-path" d="M100,30 C90,10 70,5 50,15 C30,25 10,20 0,35 C15,30 30,40 40,50 C30,55 25,65 30,75 C40,60 55,55 65,65 C72,75 80,80 100,80 C120,80 128,75 135,65 C145,55 160,60 170,75 C175,65 170,55 160,50 C170,40 185,30 200,35 C190,20 170,25 150,15 C130,5 110,10 100,30Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- FOOTER / THE SEAL -->
+<!-- ═══════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-bat">
+    <svg class="bat-symbol bat-symbol-sm" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" style="opacity:0.4;">
+      <path class="bat-path" d="M100,30 C90,10 70,5 50,15 C30,25 10,20 0,35 C15,30 30,40 40,50 C30,55 25,65 30,75 C40,60 55,55 65,65 C72,75 80,80 100,80 C120,80 128,75 135,65 C145,55 160,60 170,75 C175,65 170,55 160,50 C170,40 185,30 200,35 C190,20 170,25 150,15 C130,5 110,10 100,30Z"/>
+    </svg>
+  </div>
+  <div class="footer-title">PROJECT<br>GOTHAM</div>
+  <div class="footer-subtitle">INDIA — 2026</div>
+
+  <div class="footer-quote">
+    "The symbol burns long after the person who lit it has gone."
+  </div>
+  <div class="footer-signal">THE SIGNAL IS UP. IT DOES NOT COME DOWN.</div>
+
+  <div class="footer-email-wrap">
+    <div class="signal-form-label">SEND THE SIGNAL BACK</div>
+    <input type="email" class="signal-input" id="emailInput2" placeholder="Your email. That's all." autocomplete="off" style="max-width:400px;margin:0 auto;display:block;">
+    <button class="signal-btn" onclick="handleSignal('emailInput2','signalResp2')">[ SEND THE SIGNAL BACK ]</button>
+    <div class="signal-response" id="signalResp2">Signal received.<br><em>Good. I see you. Don't go anywhere.</em></div>
+  </div>
+
+  <div class="footer-built">Built in the dark. For the ones who live there.</div>
+</footer>
+
+<script>
+  // ─── PRELOADER ───
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preloader').classList.add('hidden');
+    }, 2200);
+  });
+
+  // ─── PROGRESS BAR ───
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+  });
+
+  // ─── INTERSECTION OBSERVER (scroll reveals) ───
+  const revealEls = document.querySelectorAll('.reveal, .reveal-slow');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // ─── NAV DOTS ───
+  const sections = ['ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8','ch9'];
+  const dots = document.querySelectorAll('.nav-dot');
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      document.getElementById(dot.dataset.chapter).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        dots.forEach(d => d.classList.remove('active'));
+        const activeDot = document.querySelector(`.nav-dot[data-chapter="${id}"]`);
+        if (activeDot) activeDot.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+
+  // ─── EMAIL SIGNAL ───
+  function handleSignal(inputId, responseId) {
+    const input = document.getElementById(inputId);
+    const resp  = document.getElementById(responseId);
+    if (!input.value || !input.value.includes('@')) {
+      input.style.borderColor = '#c04040';
+      input.placeholder = 'A real email. That\'s all we need.';
+      setTimeout(() => { input.style.borderColor = '#333'; }, 2000);
+      return;
+    }
+    input.style.display = 'none';
+    input.previousElementSibling && (input.previousElementSibling.style.opacity = '0');
+    const btn = input.nextElementSibling;
+    if (btn && btn.tagName === 'BUTTON') btn.style.display = 'none';
+    resp.style.display = 'block';
+  }
+
+  // ─── CURSOR GLOW (subtle) ───
+  const cursor = { x: 0, y: 0 };
+  document.addEventListener('mousemove', e => {
+    cursor.x = e.clientX;
+    cursor.y = e.clientY;
+  });
+</script>
+</body>
+</html>
