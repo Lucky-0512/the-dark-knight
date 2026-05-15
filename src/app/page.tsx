@@ -31,7 +31,7 @@ export default function Home() {
   const [batProgress, setBatProgress] = useState(0);
 
   const [loadedCount, setLoadedCount] = useState(0);
-  const totalAssets = 9; // 4 Image Sequences + 5 Spline Models
+  const totalAssets = 10; // 5 Image Sequences + 5 Spline Models
   const isSiteLoaded = loadedCount >= totalAssets;
   const progress = Math.min(100, Math.floor((loadedCount / totalAssets) * 100));
 

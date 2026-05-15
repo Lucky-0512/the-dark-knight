@@ -36,19 +36,19 @@ export function BubbleReveal() {
       // Sequence the messages
       bubblesRef.current.forEach((bubble, index) => {
         if (!bubble) return;
-        
-        tl.fromTo(bubble, 
+
+        tl.fromTo(bubble,
           { opacity: 0, scale: 0.8, filter: "blur(20px)", y: 50 },
           { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, duration: 2 }
         )
-        .to(bubble, {
-          opacity: 0,
-          scale: 1.2,
-          filter: "blur(20px)",
-          y: -100,
-          duration: 2,
-          delay: 1.5
-        });
+          .to(bubble, {
+            opacity: 0,
+            scale: 1.2,
+            filter: "blur(20px)",
+            y: -100,
+            duration: 2,
+            delay: 1.5
+          });
       });
 
       // Animate the background atmosphere
@@ -79,8 +79,8 @@ export function BubbleReveal() {
       {/* ATMOSPHERIC BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {isMounted && Array.from({ length: 12 }).map((_, i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             className="bg-orb absolute w-4 h-4 rounded-full border border-cyan-500/20 bg-cyan-500/5 blur-sm"
             style={{
               left: `${Math.random() * 100}%`,
@@ -98,20 +98,20 @@ export function BubbleReveal() {
           className="absolute inset-0 flex items-center justify-center pointer-events-none px-4 opacity-0"
         >
           <div className="relative w-full max-w-4xl aspect-[16/9] flex items-center justify-center">
-             {/* GOTHIC NARRATIVE FRAME */}
-             <img 
-               src="/bubble_gothic.jpeg" 
-               alt="Narrative Perspective" 
-               className="absolute inset-0 w-full h-full object-contain mix-blend-screen opacity-60 filter grayscale brightness-125"
-             />
-             
-             <div className="relative z-10 px-8 md:px-24 text-center max-w-[85%]">
-               <p className={`
+            {/* GOTHIC NARRATIVE FRAME */}
+            <img
+              src="https://pub-2773ce4c8a7943ae910bea9bf075b720.r2.dev/bubble_gothic.jpeg"
+              alt="Narrative Perspective"
+              className="absolute inset-0 w-full h-full object-contain mix-blend-screen opacity-60 filter grayscale brightness-125"
+            />
+
+            <div className="relative z-10 px-8 md:px-24 text-center max-w-[85%]">
+              <p className={`
                  ${msg.type === 'italic' ? `${caveat.className} text-3xl md:text-5xl text-neutral-300 italic` : `${cinzel.className} text-xl md:text-3xl text-white font-light leading-relaxed tracking-widest`}
                `}>
-                 {msg.text}
-               </p>
-             </div>
+                {msg.text}
+              </p>
+            </div>
           </div>
         </div>
       ))}
