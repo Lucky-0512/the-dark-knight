@@ -527,17 +527,19 @@ export default function Home() {
             </div>
           </section>
 
-          {/* SECTION 2: THE ORIGINS */}
-          <section className="min-h-[300vh] relative bg-transparent">
+          {/* SECTION 2: THE ORIGINS (CAVE SWARM) */}
+          <section className="min-h-[500vh] relative bg-transparent z-40">
             <CaveSwarmSection />
           </section>
 
           {/* SECTION 2.5: BATMAN X INDIA VISION */}
-          <IndiaVisionSection />
+          <section className="relative z-30">
+            <IndiaVisionSection />
+          </section>
 
           {/* SECTION 3: GOTHAM THEATER */}
-          <div className="training-pin-wrapper">
-            <section ref={trainingRef} className="h-screen bg-transparent relative z-10 overflow-hidden flex items-center">
+          <div className="training-pin-wrapper relative z-20">
+            <section ref={trainingRef} className="h-screen bg-transparent relative overflow-hidden flex items-center">
               {/* Global Atmospheric Blending */}
               <div className="absolute top-0 left-0 w-full h-[40vh] bg-gradient-to-b from-black via-black/40 to-transparent z-30 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-full h-[40vh] bg-gradient-to-t from-black via-black/40 to-transparent z-30 pointer-events-none" />

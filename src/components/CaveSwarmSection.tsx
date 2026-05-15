@@ -23,6 +23,8 @@ export function CaveSwarmSection() {
         pin: true,
         scrub: 1,
         refreshPriority: 88,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
         onUpdate: (self) => {
           // Drive the image sequence
           if (sequenceRef.current) {
