@@ -974,6 +974,22 @@ export default function Home() {
               </motion.div>
             )}
           </AnimatePresence>
+          {/* FINAL SIGN-OFF */}
+          <footer className="py-32 flex flex-col items-center justify-center text-center space-y-6 opacity-30 hover:opacity-100 transition-all duration-1000">
+            <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-4" />
+            <p className={`${cinzel.className} text-[10px] tracking-[0.8em] text-white/40 uppercase font-light`}>
+              Made with Love, for the Bros
+            </p>
+            <p className={`${caveat.className} text-3xl text-yellow-500/50 drop-shadow-[0_0_10px_rgba(234,179,8,0.2)]`}>
+              by Kushal aka Jinchuriki
+            </p>
+            <div className="pt-12 flex gap-6">
+               <div className="w-1 h-1 rounded-full bg-white/5 animate-pulse" />
+               <div className="w-1 h-1 rounded-full bg-white/5 animate-pulse" style={{ animationDelay: '0.2s' }} />
+               <div className="w-1 h-1 rounded-full bg-white/5 animate-pulse" style={{ animationDelay: '0.4s' }} />
+            </div>
+          </footer>
+
           <AudioEngine />
         </main>
       </div>
