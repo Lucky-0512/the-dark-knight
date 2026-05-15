@@ -146,7 +146,7 @@ export function RappelSection() {
       <div
         className="absolute inset-0 w-full h-full opacity-30 z-0 pointer-events-none"
         style={{
-          backgroundImage: "url('/building_facade.png')",
+          backgroundImage: "url('https://pub-2773ce4c8a7943ae910bea9bf075b720.r2.dev/building_facade.png')",
           backgroundSize: "100% auto",
           backgroundRepeat: "repeat-y",
           mixBlendMode: "luminosity"
