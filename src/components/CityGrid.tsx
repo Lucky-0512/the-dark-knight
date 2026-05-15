@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { PerspectiveCamera, Bloom, EffectComposer } from "@react-three/drei";
+import { PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { cinzelDeco, cinzel, caveat } from "@/lib/fonts";
 import { motion, AnimatePresence } from "framer-motion";
@@ -96,11 +96,7 @@ export function CityGrid() {
           </mesh>
         </group>
 
-        {/* Post-processing Bloom */}
-        <EffectComposer>
-           {/* Bloom from drei doesn't exist, it's from @react-three/postprocessing usually, 
-               but for simplicity we'll stick to basic emissive glow which works well in R3F */}
-        </EffectComposer>
+        {/* Basic emissive glow works well in R3F without extra post-processing libraries */}
       </Canvas>
 
       {/* Atmospheric Scanning Overlay */}
